@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shaik Mohammad Murtuzaa Ayaan — final-year Computer Science student at KHIT, Guntur. Java, Android & full-stack web developer. A cinematic storybook portfolio." />
+  <title>Ayaan. — Computer Science · Java · Android · Full-Stack Web</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23151a3a'/><circle cx='50' cy='42' r='15' fill='%23ffb765'/><path d='M8 84 L36 50 L56 74 L72 52 L92 84 Z' fill='%230e1130'/><path d='M8 84 L36 50 L56 74 L72 52 L92 84 Z' fill='none'/></svg>" />
+  <meta property="og:title" content="Ayaan — Computer Science · Java · Android · Full-Stack Web" />
+  <meta property="og:description" content="A cinematic storybook portfolio by Shaik Mohammad Murtuzaa Ayaan — final-year CS student at KHIT, Guntur." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============ CINEMATIC PRELOADER ============ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__name">Ayaan<span>.</span></span>
+      <div class="preloader__bar"><span></span></div>
+      <span class="preloader__count">0%</span>
+    </div>
+  </div>
+
+  <!-- persistent atmosphere that drifts across every scene (continuity) -->
+  <canvas class="ambient-global" id="ambient-global" aria-hidden="true"></canvas>
+
+  <!-- ============ SHARED GRADIENT DEFS (referenced by all scenes) ============ -->
+  <svg class="svg-defs" aria-hidden="true" width="0" height="0" style="position:absolute">
+    <defs>
+      <!-- HERO sunset -->
+      <linearGradient id="gHeroFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#6a5391"/><stop offset=".55" stop-color="#463373"/><stop offset="1" stop-color="#2c214f"/>
+      </linearGradient>
+      <linearGradient id="gHeroLit" x1="0" y1="0" x2="1" y2=".9">
+        <stop offset="0" stop-color="#ffd79a"/><stop offset=".45" stop-color="#ff9f6b"/><stop offset="1" stop-color="#c85f6b" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gHeroMid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#3a2c63"/><stop offset="1" stop-color="#221a44"/>
+      </linearGradient>
+      <linearGradient id="gHeroNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#181233"/><stop offset="1" stop-color="#0b0820"/>
+      </linearGradient>
+      <linearGradient id="gHeroWater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffb27a" stop-opacity=".8"/><stop offset=".4" stop-color="#8a6aa0"/><stop offset="1" stop-color="#141032"/>
+      </linearGradient>
+      <radialGradient id="gRays" cx="50%" cy="88%" r="60%">
+        <stop offset="0" stop-color="#ffe6bf" stop-opacity=".55"/><stop offset="1" stop-color="#ffe6bf" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="gCloud" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffe1bd" stop-opacity=".5"/><stop offset="1" stop-color="#ffb28a" stop-opacity=".05"/>
+      </linearGradient>
+
+      <!-- WORK waterfall -->
+      <linearGradient id="gFall" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#e9f2ff" stop-opacity=".2"/><stop offset=".3" stop-color="#cfe1ff" stop-opacity=".85"/><stop offset="1" stop-color="#9cc0ff" stop-opacity=".15"/>
+      </linearGradient>
+      <linearGradient id="gCliffFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2a356b"/><stop offset="1" stop-color="#161f47"/>
+      </linearGradient>
+      <linearGradient id="gCliffNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#101637"/><stop offset="1" stop-color="#080c22"/>
+      </linearGradient>
+
+      <!-- ABOUT forest -->
+      <radialGradient id="gMoon" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#f2f6ff"/><stop offset=".6" stop-color="#cdd9ff"/><stop offset="1" stop-color="#cdd9ff" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="gTreeFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#213a52"/><stop offset="1" stop-color="#152a3f"/>
+      </linearGradient>
+      <linearGradient id="gTreeNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0c1a26"/><stop offset="1" stop-color="#060f18"/>
+      </linearGradient>
+
+      <!-- SKILLS aurora -->
+      <linearGradient id="gAur1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7ef0c4" stop-opacity=".55"/><stop offset="1" stop-color="#7ef0c4" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gAur2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#9d8bff" stop-opacity=".5"/><stop offset="1" stop-color="#9d8bff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="gSkillFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#33407a"/><stop offset="1" stop-color="#1e2550"/>
+      </linearGradient>
+      <linearGradient id="gSkillNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#141a3d"/><stop offset="1" stop-color="#0a0e26"/>
+      </linearGradient>
+
+      <!-- CONTACT dawn -->
+      <radialGradient id="gSunrise" cx="50%" cy="100%" r="55%">
+        <stop offset="0" stop-color="#fff4dc"/><stop offset=".4" stop-color="#ffcf9a" stop-opacity=".7"/><stop offset="1" stop-color="#ffcf9a" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="gDawnFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#c58aa0"/><stop offset="1" stop-color="#8a5f86"/>
+      </linearGradient>
+      <linearGradient id="gDawnNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5a3f68"/><stop offset="1" stop-color="#33224a"/>
+      </linearGradient>
+      <linearGradient id="gDawnWater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffe6c0" stop-opacity=".85"/><stop offset="1" stop-color="#7a5a86"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__logo" aria-label="Ayaan home">Ayaan<span>.</span></a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="assets/resume.pdf" class="nav__resume" target="_blank" rel="noopener">Resume</a>
+    <button class="nav__burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main id="smooth-content">
+
+    <!-- ===================== 01 HERO — SUNSET MOUNTAINS ===================== -->
+    <section class="scene scene--hero" id="hero" data-scene="0">
+      <div class="scene__layers" aria-hidden="true">
+        <div class="layer layer--sky sky--sunset" data-depth="0.02"></div>
+        <div class="layer layer--glow glow--sun" data-depth="0.05"></div>
+
+        <div class="layer layer--rays" data-depth="0.08">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g fill="url(#gRays)" opacity=".7" style="mix-blend-mode:screen">
+              <polygon points="720,900 560,120 640,120"/>
+              <polygon points="720,900 700,90 760,90"/>
+              <polygon points="720,900 820,120 900,120"/>
+              <polygon points="720,900 980,150 1080,150"/>
+              <polygon points="720,900 420,160 500,160"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--clouds" data-depth="0.12">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g fill="url(#gCloud)">
+              <ellipse class="cloud cloud--a" cx="300" cy="230" rx="180" ry="40"/>
+              <ellipse class="cloud cloud--b" cx="1040" cy="180" rx="220" ry="46"/>
+              <ellipse class="cloud cloud--c" cx="720" cy="300" rx="150" ry="30"/>
+              <ellipse class="cloud cloud--a" cx="1220" cy="320" rx="140" ry="30"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--birds" data-depth="0.16">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g fill="none" stroke="#fff2e2" stroke-width="3" stroke-linecap="round" opacity=".85">
+              <path class="bird bird--a" d="M300 210 q13 -13 26 0 q13 -13 26 0"/>
+              <path class="bird bird--b" d="M370 240 q11 -11 22 0 q11 -11 22 0"/>
+              <path class="bird bird--c" d="M470 200 q12 -12 24 0 q12 -12 24 0"/>
+              <path class="bird bird--a" d="M560 235 q10 -10 20 0 q10 -10 20 0"/>
+              <path class="bird bird--b" d="M650 210 q12 -12 24 0 q12 -12 24 0"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--mtn-far" data-depth="0.22">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <!-- distant range -->
+            <path fill="#4a3a78" opacity=".65" d="M0 560 L210 470 L380 545 L560 455 L780 545 L1000 465 L1230 545 L1440 475 L1440 900 L0 900 Z"/>
+            <!-- main peak in shadow -->
+            <path fill="url(#gHeroFar)" d="M470 900 L760 300 L840 360 L900 300 L1180 900 Z"/>
+            <!-- sunlit face -->
+            <path fill="url(#gHeroLit)" opacity=".95" d="M840 360 L900 300 L1180 900 L905 900 L845 470 Z"/>
+            <!-- snow ridges -->
+            <path fill="#fbe6cd" opacity=".9" d="M760 300 L735 360 L760 350 L742 402 L788 360 L806 402 L800 350 L840 360 L810 342 L790 350 Z"/>
+            <path fill="#fff3e3" opacity=".7" d="M900 300 L878 352 L905 344 L892 392 L928 356 L900 336 Z"/>
+            <!-- atmospheric haze band -->
+            <rect x="0" y="600" width="1440" height="150" fill="#ffb98a" opacity=".08"/>
+            <!-- side peak -->
+            <path fill="url(#gHeroFar)" opacity=".92" d="M60 900 L340 470 L360 500 L400 470 L640 900 Z"/>
+            <path fill="#f7dcc0" opacity=".55" d="M340 470 L322 512 L344 504 L332 540 L364 508 L360 500 L348 502 Z"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--mtn-mid" data-depth="0.4">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gHeroMid)" d="M0 700 L240 560 L470 700 L700 540 L980 710 L1220 580 L1440 690 L1440 900 L0 900 Z"/>
+            <rect x="0" y="700" width="1440" height="120" fill="#8a6ab0" opacity=".07"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--mtn-near" data-depth="0.62">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gHeroNear)" d="M0 800 L360 650 L720 810 L1080 640 L1440 790 L1440 900 L0 900 Z"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--water" data-depth="0.74">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gHeroWater)" d="M0 812 C 300 792 520 838 760 812 C 1000 786 1180 838 1440 812 L1440 900 L0 900 Z"/>
+            <g fill="#fff" opacity=".18">
+              <rect x="360" y="836" width="120" height="3" rx="1.5"/>
+              <rect x="620" y="856" width="180" height="3" rx="1.5"/>
+              <rect x="900" y="842" width="140" height="3" rx="1.5"/>
+            </g>
+            <!-- rocks -->
+            <g fill="#0a0819">
+              <ellipse cx="250" cy="852" rx="46" ry="18"/>
+              <ellipse cx="1150" cy="866" rx="60" ry="22"/>
+              <ellipse cx="560" cy="878" rx="38" ry="14"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--traveler" data-depth="0.8">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <g transform="translate(1040 470) scale(1.7)">
+              <!-- rock -->
+              <ellipse cx="90" cy="214" rx="70" ry="20" fill="#080614"/>
+              <!-- trailing cloak -->
+              <path fill="#c0503c" opacity=".92" d="M104 96 C 150 116 162 168 146 210 C 138 172 122 132 100 118 Z"/>
+              <!-- body -->
+              <path fill="#0a0819" d="M62 210 C 44 156 50 100 72 82 C 80 76 98 76 106 82 C 128 100 132 156 118 210 Z"/>
+              <!-- head -->
+              <circle cx="88" cy="72" r="13" fill="#0a0819"/>
+              <!-- conical hat -->
+              <path fill="#0a0819" d="M58 60 L88 18 L118 60 C 104 54 72 54 58 60 Z"/>
+              <path fill="#0a0819" d="M48 62 C 72 50 104 50 128 62 C 106 70 70 70 48 62 Z"/>
+              <!-- warm rim light -->
+              <path fill="none" stroke="#ffb27a" stroke-width="1.4" opacity=".6" d="M106 84 C 126 104 130 156 118 206"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--grass" data-depth="0.9">
+          <svg viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax slice">
+            <path fill="#0a0819" d="M0 120 C 240 70 380 150 620 100 C 860 60 980 140 1200 90 C 1320 70 1440 120 1440 120 L1440 340 L0 340 Z"/>
+            <g stroke="#0a0819" stroke-width="6" stroke-linecap="round" fill="none">
+              <path d="M120 340 C 116 220 104 180 92 130"/><path d="M150 340 C 150 230 158 190 172 150"/>
+              <path d="M1180 340 C 1176 220 1164 180 1150 128"/><path d="M1220 340 C 1220 230 1230 188 1246 148"/>
+              <path d="M700 340 C 696 230 686 196 676 156"/><path d="M740 340 C 742 236 752 200 766 160"/>
+            </g>
+          </svg>
+        </div>
+
+        <canvas class="layer layer--fireflies" id="fireflies"></canvas>
+        <div class="layer scene__dim"></div>
+      </div>
+
+      <div class="scene__content hero__content">
+        <p class="kicker reveal">Computer Science · Java · Android · Full-Stack Web</p>
+        <h1 class="headline reveal">AYAAN</h1>
+        <span class="divider reveal"></span>
+        <p class="lead reveal">A final-year Computer Science student at KHIT, Guntur — I build with Java, craft Android apps, and ship full-stack web experiences end to end. Scroll to wander through the work.</p>
+        <a href="#work" class="btn reveal">View my work <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="scroll-hint" aria-hidden="true"><span></span>Scroll</div>
+    </section>
+
+    <!-- ===================== 02 WORK — NIGHT WATERFALL ===================== -->
+    <section class="scene scene--work" id="work" data-scene="1">
+      <div class="scene__layers" aria-hidden="true">
+        <div class="layer layer--sky sky--night" data-depth="0.03"></div>
+        <canvas class="layer layer--stars" id="stars"></canvas>
+        <div class="layer layer--glow glow--moon-cool" data-depth="0.06"></div>
+
+        <div class="layer layer--rays rays--cool" data-depth="0.1">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g fill="#bcd4ff" opacity=".14" style="mix-blend-mode:screen">
+              <polygon points="360,0 300,900 520,900"/>
+              <polygon points="520,0 460,900 700,900"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--cliff-far" data-depth="0.24">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gCliffFar)" d="M0 240 L280 240 L340 560 L400 240 L980 240 L1030 600 L1080 240 L1440 240 L1440 900 L0 900 Z"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--waterfall" data-depth="0.34">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g>
+              <rect class="fall" x="470" y="150" width="34" height="600" rx="17" fill="url(#gFall)"/>
+              <rect class="fall fall--2" x="506" y="150" width="46" height="600" rx="23" fill="url(#gFall)"/>
+              <rect class="fall" x="556" y="150" width="30" height="600" rx="15" fill="url(#gFall)"/>
+              <rect class="fall fall--2" x="588" y="150" width="40" height="600" rx="20" fill="url(#gFall)"/>
+              <rect class="fall" x="628" y="150" width="26" height="600" rx="13" fill="url(#gFall)"/>
+            </g>
+            <!-- splash mist -->
+            <ellipse class="mist-pool" cx="548" cy="726" rx="150" ry="34" fill="#cfe1ff" opacity=".22"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--cliff-near" data-depth="0.55">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gCliffNear)" d="M0 580 L340 510 L520 660 L640 580 L820 590 L940 680 L1120 540 L1440 620 L1440 900 L0 900 Z"/>
+            <!-- foreground foliage -->
+            <g fill="#060c1c">
+              <path d="M60 900 C 40 800 60 740 100 720 C 80 780 96 840 120 900 Z"/>
+              <path d="M1330 900 C 1360 790 1330 730 1290 712 C 1320 776 1306 840 1280 900 Z"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--mist" data-depth="0.7"></div>
+        <div class="layer scene__dim"></div>
+      </div>
+
+      <div class="scene__content">
+        <p class="kicker reveal"><span>01</span> / Work</p>
+        <h2 class="headline reveal">Creations</h2>
+        <span class="divider reveal"></span>
+        <p class="lead reveal">A few things I've built — platforms, tools and experiences shaped end to end.</p>
+
+        <div class="cards" id="cards">
+          <article class="card">
+            <div class="card__art" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <rect x="3" y="3" width="19" height="19" rx="4" fill="#ffb765"/>
+                <rect x="26" y="3" width="19" height="19" rx="4" fill="#ff8a6b"/>
+                <rect x="3" y="26" width="19" height="19" rx="4" fill="#b493ff"/>
+                <rect x="26" y="26" width="19" height="19" rx="4" fill="#2a2f55"/>
+                <text x="12.5" y="16" font-size="10" font-weight="700" text-anchor="middle" fill="#241019" font-family="Arial">2</text>
+                <text x="35.5" y="16" font-size="10" font-weight="700" text-anchor="middle" fill="#241019" font-family="Arial">4</text>
+                <text x="12.5" y="39" font-size="9" font-weight="700" text-anchor="middle" fill="#241019" font-family="Arial">8</text>
+              </svg>
+            </div>
+            <p class="card__num">01</p>
+            <h3 class="card__title">2048 — The Game</h3>
+            <p class="card__stack">Java · OOP · Game Logic</p>
+            <p class="card__desc">A fully playable 2048 puzzle built from scratch in pure Java — grid state, tile spawning and merging, score tracking and win / lose detection, all hand-coded.</p>
+            <a href="https://github.com/Ayaan48/2048_Game" target="_blank" rel="noopener" class="card__link">View on GitHub <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="card">
+            <div class="card__art" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <rect width="48" height="48" rx="10" fill="#12331f"/>
+                <path d="M38 9 C 17 9 9 21 9 39 C 27 39 39 27 38 9 Z" fill="#7fd39a"/>
+                <path d="M15 37 C 22 27 29 19 36 14" stroke="#1c4a30" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="card__num">02</p>
+            <h3 class="card__title">CleanTech — Smart Garbage Sorter</h3>
+            <p class="card__stack">Python · CNN · Transfer Learning</p>
+            <p class="card__desc">An AI waste-classification system that sorts garbage multi-categorically using deep-learning models — automating segregation for more accurate, sustainable, greener waste management.</p>
+            <a href="#" class="card__link">About this project <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="card">
+            <div class="card__art" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <rect width="48" height="48" rx="10" fill="#1a1f45"/>
+                <circle cx="34" cy="15" r="6" fill="#ffb765"/>
+                <path d="M2 42 L16 22 L28 42 Z" fill="#3a2f6b"/>
+                <path d="M18 42 L34 20 L48 42 Z" fill="#241d47"/>
+              </svg>
+            </div>
+            <p class="card__num">03</p>
+            <h3 class="card__title">This Portfolio</h3>
+            <p class="card__stack">GSAP · ScrollTrigger · Vanilla JS</p>
+            <p class="card__desc">A cinematic storybook portfolio with layered parallax scenes, 3D scroll reveals and drifting ambience — designed and built from scratch.</p>
+            <a href="#" class="card__link">You're on it <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 03 ABOUT — MOONLIT FOREST + DEER ===================== -->
+    <section class="scene scene--about" id="about" data-scene="2">
+      <div class="scene__layers" aria-hidden="true">
+        <div class="layer layer--sky sky--forest" data-depth="0.03"></div>
+        <div class="layer layer--moon" data-depth="0.06">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <circle cx="1000" cy="200" r="200" fill="url(#gMoon)"/>
+            <circle cx="1000" cy="200" r="76" fill="#f3f7ff"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--trees-far" data-depth="0.26">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <g fill="url(#gTreeFar)">
+              <path d="M120 900 L120 520 L152 520 L100 428 L136 428 L84 336 L172 428 L204 428 L156 520 L188 520 L188 900 Z"/>
+              <path d="M360 900 L360 560 L392 560 L340 468 L376 468 L324 376 L412 468 L444 468 L396 560 L428 560 L428 900 Z"/>
+              <path d="M600 900 L600 590 L628 590 L582 508 L614 508 L568 428 L648 508 L680 508 L634 590 L662 590 L662 900 Z"/>
+              <path d="M1080 900 L1080 540 L1112 540 L1060 448 L1096 448 L1044 356 L1132 448 L1164 448 L1116 540 L1148 540 L1148 900 Z"/>
+              <path d="M1300 900 L1300 572 L1332 572 L1280 480 L1316 480 L1264 388 L1352 480 L1384 480 L1336 572 L1368 572 L1368 900 Z"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--clearing" data-depth="0.42">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <ellipse cx="720" cy="828" rx="380" ry="88" fill="#20364c" opacity=".55"/>
+            <ellipse cx="720" cy="812" rx="150" ry="30" fill="#dbe7ff" opacity=".12"/>
+            <!-- deer silhouette -->
+            <g fill="#08131f" transform="translate(676 668) scale(1.25)">
+              <path d="M0 132 L6 66 L2 44 L17 22 L21 4 L28 22 L37 28 L30 44 L37 64 L44 66 L59 48 L66 52 L52 72 L57 132 L48 132 L46 92 L39 86 L26 90 L24 132 L15 132 L15 94 L9 92 L6 132 Z"/>
+              <path d="M17 22 L8 2 L15 0 L22 15 Z M21 4 L30 -3 L33 4 L26 17 Z"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--trees-near" data-depth="0.6">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <g fill="url(#gTreeNear)">
+              <path d="M40 900 L40 480 L82 480 L20 368 L72 368 L10 248 L132 368 L184 368 L122 480 L164 480 L164 900 Z"/>
+              <path d="M250 900 L250 560 L286 560 L232 456 L276 456 L222 348 L318 456 L362 456 L308 560 L344 560 L344 900 Z"/>
+              <path d="M1260 900 L1260 500 L1302 500 L1240 388 L1292 388 L1230 268 L1352 388 L1404 388 L1342 500 L1384 500 L1384 900 Z"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--mist mist--low" data-depth="0.72"></div>
+        <canvas class="layer layer--fireflies" id="fireflies2"></canvas>
+        <div class="layer scene__dim"></div>
+      </div>
+
+      <div class="scene__content">
+        <p class="kicker reveal"><span>02</span> / About</p>
+        <h2 class="headline reveal">Journey</h2>
+        <span class="divider reveal"></span>
+        <div class="about__grid">
+          <p class="lead reveal">I'm Shaik Mohammad Murtuzaa Ayaan — Ayaan for short — a final-year Computer Science student at KHIT in Guntur. I love building with Java, exploring Android development, and putting together full-stack web apps, front to back.</p>
+          <ol class="timeline reveal" aria-label="Education and experience timeline">
+            <li><span class="timeline__year">2023–27</span><span class="timeline__body">B.Tech, Computer Science — Kallam Haranadha Reddy Institute of Technology (KHIT), Guntur</span></li>
+            <li><span class="timeline__year">2025</span><span class="timeline__body">AI &amp; ML Intern — SmartBridge (with APSCHE)</span></li>
+            <li><span class="timeline__year">Now</span><span class="timeline__body">Final year — open to Java, Android &amp; full-stack roles</span></li>
+          </ol>
+        </div>
+        <a href="#skills" class="btn btn--ghost reveal">The craft <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== 04 SKILLS — STARLIT AURORA VALLEY ===================== -->
+    <section class="scene scene--skills" id="skills" data-scene="3">
+      <div class="scene__layers" aria-hidden="true">
+        <div class="layer layer--sky sky--aurora" data-depth="0.03"></div>
+        <canvas class="layer layer--stars" id="stars2"></canvas>
+        <div class="layer layer--aurora" data-depth="0.08">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <path class="aur aur--a" fill="url(#gAur1)" d="M120 40 C 360 120 520 20 760 90 C 980 150 1120 60 1360 110 L1360 360 C 1120 300 980 380 760 320 C 520 260 360 360 120 300 Z" opacity=".7"/>
+            <path class="aur aur--b" fill="url(#gAur2)" d="M60 120 C 320 200 500 110 720 170 C 960 235 1140 150 1400 200 L1400 420 C 1140 360 960 440 720 380 C 500 325 320 420 60 360 Z" opacity=".55"/>
+          </svg>
+        </div>
+        <div class="layer layer--mtn-far" data-depth="0.28">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gSkillFar)" d="M0 700 L280 500 L560 700 L820 480 L1120 700 L1440 560 L1440 900 L0 900 Z"/>
+            <path fill="#c9d6ff" opacity=".5" d="M820 480 L800 526 L824 516 L810 556 L846 520 L820 502 Z"/>
+          </svg>
+        </div>
+        <div class="layer layer--mtn-near" data-depth="0.5">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gSkillNear)" d="M0 820 L400 660 L800 830 L1160 660 L1440 800 L1440 900 L0 900 Z"/>
+          </svg>
+        </div>
+        <div class="layer scene__dim"></div>
+      </div>
+
+      <div class="scene__content">
+        <p class="kicker reveal"><span>03</span> / Skills</p>
+        <h2 class="headline reveal">Craft</h2>
+        <span class="divider reveal"></span>
+        <p class="lead reveal">The tools I reach for, grouped by where they live in the stack.</p>
+
+        <div class="skills" id="skills-groups">
+          <div class="skills__group">
+            <p class="skills__label">Languages</p>
+            <ul class="chips"><li class="chip">Java</li><li class="chip">Python</li><li class="chip">JavaScript</li></ul>
+          </div>
+          <div class="skills__group">
+            <p class="skills__label">Android &amp; Mobile</p>
+            <ul class="chips"><li class="chip">Android</li><li class="chip">Java</li><li class="chip">Flutter</li></ul>
+          </div>
+          <div class="skills__group">
+            <p class="skills__label">Full-Stack Web</p>
+            <ul class="chips"><li class="chip">React</li><li class="chip">Node.js</li><li class="chip">Express</li><li class="chip">HTML / CSS</li><li class="chip">MongoDB</li><li class="chip">MySQL</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 05 CONTACT — DAWN ===================== -->
+    <section class="scene scene--contact" id="contact" data-scene="4">
+      <div class="scene__layers" aria-hidden="true">
+        <div class="layer layer--sky sky--dawn" data-depth="0.03"></div>
+        <div class="layer layer--glow glow--sunrise" data-depth="0.06"></div>
+
+        <div class="layer layer--rays rays--dawn" data-depth="0.09">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g fill="#fff2d6" opacity=".3" style="mix-blend-mode:screen">
+              <polygon points="720,900 600,60 700,60"/>
+              <polygon points="720,900 740,40 820,40"/>
+              <polygon points="720,900 900,90 1000,90"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--birds" data-depth="0.14">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            <g stroke="#5a4a63" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7">
+              <path class="bird bird--a" d="M220 220 q14 -14 28 0 q14 -14 28 0"/>
+              <path class="bird bird--b" d="M440 180 q11 -11 22 0 q11 -11 22 0"/>
+              <path class="bird bird--c" d="M980 250 q12 -12 24 0 q12 -12 24 0"/>
+              <path class="bird bird--a" d="M1120 200 q10 -10 20 0 q10 -10 20 0"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="layer layer--mtn-far" data-depth="0.26">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gDawnFar)" d="M0 700 L300 520 L620 700 L900 500 L1200 700 L1440 580 L1440 900 L0 900 Z"/>
+            <path fill="#fff0d8" opacity=".7" d="M900 500 L882 546 L906 536 L892 578 L928 540 L900 522 Z"/>
+          </svg>
+        </div>
+        <div class="layer layer--mtn-near" data-depth="0.5">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gDawnNear)" d="M0 820 L380 680 L760 830 L1120 670 L1440 800 L1440 900 L0 900 Z"/>
+          </svg>
+        </div>
+
+        <div class="layer layer--water" data-depth="0.7">
+          <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <path fill="url(#gDawnWater)" d="M0 838 C 320 820 520 858 760 838 C 1000 818 1180 858 1440 838 L1440 900 L0 900 Z"/>
+            <g fill="#fff" opacity=".25"><rect x="620" y="864" width="180" height="3" rx="1.5"/><rect x="360" y="852" width="120" height="3" rx="1.5"/></g>
+          </svg>
+        </div>
+
+        <div class="layer layer--grass" data-depth="0.85">
+          <svg viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax slice">
+            <path fill="#241832" d="M0 120 C 260 70 400 150 640 100 C 900 60 1020 140 1240 90 L1440 110 L1440 340 L0 340 Z"/>
+            <g stroke="#241832" stroke-width="6" stroke-linecap="round" fill="none">
+              <path d="M110 340 C 106 224 96 186 84 138"/><path d="M1250 340 C 1250 232 1260 190 1276 150"/>
+            </g>
+          </svg>
+        </div>
+        <div class="layer scene__dim scene__dim--light"></div>
+      </div>
+
+      <div class="scene__content contact__content">
+        <p class="kicker reveal"><span>04</span> / Contact</p>
+        <h2 class="headline reveal">Connect</h2>
+        <span class="divider reveal"></span>
+        <p class="lead reveal">The story ends at sunrise — but yours could start here. I'm always up for a good problem.</p>
+        <ul class="contact__links reveal">
+          <li><span>Email</span><a href="mailto:mohammadmuzu445@gmail.com">mohammadmuzu445@gmail.com</a></li>
+          <li><span>Phone</span><a href="tel:+919390207455">+91 93902 07455</a></li>
+          <li><span>Location</span><a href="#" aria-disabled="true">Guntur, Andhra Pradesh</a></li>
+          <li><span>GitHub</span><a href="https://github.com/Ayaan48" target="_blank" rel="noopener">github.com/Ayaan48</a></li>
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/ayaan48/" target="_blank" rel="noopener">linkedin.com/in/ayaan48</a></li>
+          <li><span>Instagram</span><a href="https://www.instagram.com/ftooji/" target="_blank" rel="noopener">@ftooji</a></li>
+        </ul>
+        <a href="mailto:mohammadmuzu445@gmail.com" class="btn btn--bright reveal">Start a conversation <span aria-hidden="true">→</span></a>
+        <footer class="contact__foot reveal">© 2026 Shaik Mohammad Murtuzaa Ayaan · Built with GSAP &amp; ScrollTrigger</footer>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
